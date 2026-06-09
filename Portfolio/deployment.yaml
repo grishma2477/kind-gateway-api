@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grishma-portfolio-deployment
+  namespace: portfolio 
+  labels:
+    app: grishma-portfolio
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: grishma-portfolio
+  template:
+    metadata:
+      labels:
+        app: grishma-portfolio
+    spec:
+      containers:
+        - name: mypersonalportfolio
+          image: grishma2477/mypersonalportfolio:01
+          ports:
+            - containerPort: 80
