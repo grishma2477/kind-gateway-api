@@ -1,8 +1,8 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: portfolio-deployment
-  namespace: portfolio
+  name: grishma-portfolio-deployment
+  namespace: ing
   labels:
     app: grishma-portfolio
 spec:
@@ -25,8 +25,8 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: portfolio-service
-  namespace: portfolio
+  name: grishma-portfolio-service
+  namespace: ing
 spec:
   selector:
     app: grishma-portfolio
