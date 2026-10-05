@@ -1,0 +1,64 @@
+
+# Http Route
+apiVersion: gateway.networking.k8s.io/v1
+kind: HTTPRoute
+metadata:
+  name: app-route
+  namespace: gw
+
+spec:
+  parentRefs:
+  - name: gateway
+  
+  rules:
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /
+    backendRefs:
+      - name: portfolio-service
+        namespace: portfolio
+        port: 80
+
+  - matches:
+    - path:
+        type: PathPrefix
+        value: /backend
+    filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /
+    backendRefs:
+    - name: backend-service
+      namespace: backend
+      port: 3200
+
+  - matches:
+      - path:
+            type: PathPrefix
+            value: /assets
+      - path:
+          type: PathPrefix
+          value: /frontend
+    filters:
+      - type: URLRewrite
+        urlRewrite:
+          path:
+            type: ReplacePrefixMatch
+            replacePrefixMatch: /
+    backendRefs:
+      - name: frontend-service
+        namespace: frontend
+        port: 80
+
+# React will send Get request to /assets to show the assets
+  - matches:
+      - path:
+          type: PathPrefix
+          value: /assets
+    backendRefs:
+      - name: frontend-service
+        namespace: frontend
+        port: 80
